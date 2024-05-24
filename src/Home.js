@@ -1,29 +1,65 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import Users from './Users';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Home from './Home';
+import Products from './Products';
+import Order from './Orders';
+import EditOrder from './EditOrders';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { AuthProvider } from './utils/AuthContext';
+import LoginPage from './utils/Login';
+import ProtectedRoute from './utils/ProtectedRoute';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-bootstrap';
 
-
-function Home() {
-
-    const logout = () => {
-        console.log('Logged out');
-    };
-
-    return (
-        <div className="container-fluid p-0 d-flex justify-content-center align-items-end vh-100">
-            <div className="row w-100">
-                <div className="col d-flex justify-content-center align-items-start">
-                    <img 
-                        src="https://marketplace.canva.com/EAFSRrBn5pg/1/0/800w/canva-red-and-brown-holiday-gift-shop-promotion-facebook-cover-o5Cvhp_X8ik.jpg" 
-                        alt="Cover"
-                        className="img-fluid w-100" // Set width to 100% for responsiveness
-                        style={{maxHeight: '100vh'}} // Apply max-height inline style
-                    />
-                </div>
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <div>
+          {/* Navigation Bar */}
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container">
+              <Link className="navbar-brand" to="/">Home</Link>
+              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+              </button>
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav ml-auto">
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/users">Users</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/products">Products</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/orders">Orders</Link>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </nav>
 
-            <button className="btn btn-primary" onClick={logout}>Logout</button>
+          {/* Routes */}
+          <Routes element={<ProtectedRoute />}>
+            <Route path="/users" element={<Users />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/orders" element={<Order />} />
+            <Route path="/orders/:id/products" element={<EditOrder />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+
         </div>
-    );
+      </BrowserRouter>
+
+      <ToastContainer/>
+  
+    </AuthProvider>
+  );
 }
 
-export default Home;
+export default App;

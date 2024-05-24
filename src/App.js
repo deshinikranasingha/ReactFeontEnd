@@ -6,14 +6,16 @@ import Products from './Products';
 import Order from './Orders';
 import EditOrder from './EditOrders';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { AuthProvider } from './utils/AuthContext';
 import LoginPage from './utils/Login';
 import ProtectedRoute from './utils/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-bootstrap';
 import Stock from './Stock';
 
 function App() {
   return (
-    
+    <AuthProvider>
       <BrowserRouter>
         <div>
           {/* Navigation Bar */}
@@ -58,6 +60,10 @@ function App() {
 
         </div>
       </BrowserRouter>
+
+      <ToastContainer/>
+  
+    </AuthProvider>
   );
 }
 

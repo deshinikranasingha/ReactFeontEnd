@@ -11,11 +11,10 @@ function EditOrders() {
     const [addButtonsDisabled, setAddButtonsDisabled] = useState(false);
     const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
     const [orderId, setOrderId] = useState(null);
-    const [quantity, setQuantity] = useState(1); // Added useState for quantity
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/auth/orders/${id}`)
+        axios.get(`http://localhost:8080/orders/${id}`)
             .then(response => {
                 setOrder(response.data);
                 setIsOrderConfirmed(response.data.confirmed); // Update confirmation status
@@ -25,7 +24,7 @@ function EditOrders() {
                 console.log(error);
             });
 
-        axios.get("http://localhost:8080/auth/products")
+        axios.get("http://localhost:8080/products")
             .then(response => {
                 setProducts(response.data);
             })
@@ -35,23 +34,23 @@ function EditOrders() {
     }, [id]);
 
     const handleCompleteOrder = () => {
-        axios.put(`http://localhost:8080/auth/orders/${id}/confirm`)
+        axios.put(`http://localhost:8080/orders/${id}/confirm`)
             .then(response => {
                 setIsOrderCompleted(true);
                 setAddButtonsDisabled(true);
-                navigate('/auth/orders');
+                navigate('/orders');
             })
             .catch(error => {
                 console.log(error);
             });
     };
 
-    const handleAddProductToOrder = (productId, quantity) => {
+    const handleAddProductToOrder = (productId) => {
         const data = {
             productId: productId,
-            quantity: quantity
+            quantity: 1
         };
-        axios.post(`http://localhost:8080/auth/orders/${id}/addProducts`, data)
+        axios.post(`http://localhost:8080/orders/${id}/addProducts`, data)
             .then(response => {
                 setOrder(response.data);
             })
@@ -61,7 +60,7 @@ function EditOrders() {
     };
 
     const handleRemoveProductFromOrder = (productId) => {
-        axios.delete(`http://localhost:8080/auth/orders/${id}/products/${productId}`)
+        axios.delete(`http://localhost:8080/orders/${id}/products/${productId}`)
             .then(response => {
                 const updatedOrder = {
                     ...order,
@@ -77,6 +76,7 @@ function EditOrders() {
                 console.log(error);
             });
     };
+    
 
     return (
         <div className='container'>
@@ -106,7 +106,7 @@ function EditOrders() {
                             {order && order.orderedProducts.map(product => (
                                 <tr key={product.id}>
                                     <td>{product.id}</td>
-                                    <td>{product.name}</td>
+                                    <td>{product.productName}</td>
                                     <td>{product.price}</td>
                                     <td>
                                         <button
@@ -128,26 +128,17 @@ function EditOrders() {
                     <div className='products'>
                         {products && products.map((product) => (
                             <div key={product.id} className='bg-light shadow-sm p-3'>
-                                <h4>{product.name}</h4>
+                                <h4>{product.productName}</h4>
                                 <p>Rs. {product.price}</p>
-                                <div className="input-group mb-3">
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        className="form-control"
-                                        placeholder="Quantity"
-                                        value={quantity}
-                                        onChange={(e) => setQuantity(e.target.value)}
-                                    />
-                                    <button
-                                        type='button'
-                                        onClick={() => handleAddProductToOrder(product.id, quantity)}
-                                        className={`btn btn-${isOrderCompleted || addButtonsDisabled || isOrderConfirmed ? 'secondary' : 'outline-secondary'} btn-sm`}
-                                        disabled={isOrderCompleted || addButtonsDisabled || isOrderConfirmed}
-                                    >
-                                        Add
-                                    </button>
-                                </div>
+                                <button
+                                    type='button'
+                                    onClick={() => handleAddProductToOrder(product.id)}
+                                    className={`btn btn-${isOrderCompleted || addButtonsDisabled || isOrderConfirmed ? 'secondary' : 'outline-secondary'} btn-sm`}
+                                    disabled={isOrderCompleted || addButtonsDisabled || isOrderConfirmed}
+                                >
+                                    Add
+                                </button>
+
                             </div>
                         ))}
                     </div>

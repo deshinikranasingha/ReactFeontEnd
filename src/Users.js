@@ -14,7 +14,7 @@ function Users() {
     }, []);
 
     function getUsers() {
-        axios.get("http://localhost:8080/auth/users")
+        axios.get("http://localhost:8080/users")
             .then(function (response) {
                 setUsers(response.data);
             })
@@ -44,7 +44,7 @@ function Users() {
             email: email
         }
 
-        axios.post("http://localhost:8080/auth/users", data)
+        axios.post("http://localhost:8080/users", data)
             .then(function (response) {
                 console.log(response);
                 getUsers();
@@ -63,7 +63,7 @@ function Users() {
             email: email
         }
 
-        axios.put("http://localhost:8080/auth/users/" + edit.id, data)
+        axios.put("http://localhost:8080/users/" + edit.id, data)
             .then(function (response) {
                 console.log(response);
                 getUsers();
@@ -75,7 +75,7 @@ function Users() {
     }
 
     function deleteUser(id) {
-        axios.delete("http://localhost:8080/auth/users/" + id)
+        axios.delete("http://localhost:8080/users/" + id)
             .then(function () {
                 getUsers();
             })

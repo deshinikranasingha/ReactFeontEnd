@@ -3,6 +3,7 @@ import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const LoginPage = () => {
@@ -10,13 +11,13 @@ const LoginPage = () => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const {login} = useAuth();
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
 
-        const data ={
+        const data = {
             userName: userName,
             password: password,
         }
@@ -32,23 +33,23 @@ const LoginPage = () => {
             });
     }
 
-    return(
+    return (
         <div className="container">
 
-            <h1>Login Page</h1>
-            <form onSubmit={handleLogin}>
-                <div className="form-group">
-                    <label for="userName">User Name</label>
-                    <input type="text" className="form-control" onChange={(e) => setUserName(e.target.value)}/>
-                </div>
+                <form onSubmit={handleLogin}>
 
-                <div className="form-group">
-                    <label for="password">Password</label>
-                    <input type="text" className="form-control" onChange={(e) => setPassword(e.target.value)}/>
-                </div>
+                    <div className="form-group">
+                        <label>Username</label>
+                        <input type="text" className="form-control" onChange={(e) => setUserName(e.target.value)} required />
+                    </div>
 
-                <button type="submit" className="btn btn-primary">Login</button>
-            </form>
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} required />
+                    </div>
+
+                    <button type="submit" className="btn btn-primary">Save</button>
+                </form>
         </div>
     )
 }

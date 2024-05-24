@@ -11,7 +11,7 @@ function StockManagement() {
 
     const fetchStocks = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/auth/stocks");
+            const response = await axios.get("http://localhost:8080/stocks");
             setStocks(response.data);
         } catch (error) {
             console.error("Error fetching stocks:", error);

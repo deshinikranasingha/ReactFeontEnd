@@ -19,7 +19,7 @@ function ProductsManagement() {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/auth/products");
+            const response = await axios.get("http://localhost:8080/products");
             if (Array.isArray(response.data)) {
                 setProducts(response.data);
             } else {
@@ -34,7 +34,7 @@ function ProductsManagement() {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/auth/categories");
+            const response = await axios.get("http://localhost:8080/categories");
             if (Array.isArray(response.data)) {
                 setCategories(response.data);
             } else {
@@ -74,7 +74,7 @@ function ProductsManagement() {
         };
 
         try {
-            await axios.post("http://localhost:8080/auth/products", data);
+            await axios.post("http://localhost:8080/products", data);
             fetchProducts();
             clearForm();
         } catch (error) {
@@ -108,7 +108,7 @@ function ProductsManagement() {
         };
 
         try {
-            await axios.put(`http://localhost:8080/auth/products/${editProduct.id}`, data);
+            await axios.put(`http://localhost:8080/products/${editProduct.id}`, data);
             fetchProducts();
             clearForm();
             setEditProduct(null);
@@ -119,7 +119,7 @@ function ProductsManagement() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/auth/products/${id}`);
+            await axios.delete(`http://localhost:8080/products/${id}`);
             fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);

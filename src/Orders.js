@@ -12,7 +12,7 @@ function Orders() {
     }, []);
 
     function getOrders() {
-        axios.get("http://localhost:8080/auth/orders")
+        axios.get("http://localhost:8080/orders")
             .then(response => {
                 setOrders(response.data);
             })
@@ -25,7 +25,7 @@ function Orders() {
 
     function handleOrderAction(orderId) {
         setSelectedOrderId(orderId);
-        navigate(`/auth/orders/${orderId}/auth/products`);
+        navigate(`/auth/orders/${orderId}/products`);
     }
 
     function isOrderCompleted(orderId) {
@@ -34,7 +34,7 @@ function Orders() {
     }
 
     function handleAddProductToOrder() {
-        axios.post("http://localhost:8080/auth/orders")
+        axios.post("http://localhost:8080/orders")
             .then(response => {
                 const newOrderId = response.data.id;
                 navigate(`/auth/orders/${newOrderId}/auth/products`);
